@@ -1,0 +1,20 @@
+{% for type in types.implementing.AutoModelable %}
+// MARK: {{ type.name }}
+import ObjectMapper
+
+class {{type.name}}: Mappable {
+	{% for variable in type.storedVariables %}
+	var {{variable.name}}: {{variable.typeName}}
+	{% endfor %}
+	required init?(map: Map) {
+
+	}
+
+	func mapping(map: Map) {
+		{% for variable in type.storedVariables %}
+		{{variable.name}} <- map["{{variable.name}}"]
+		{% endfor %}
+	}
+}
+
+{% endfor %}
